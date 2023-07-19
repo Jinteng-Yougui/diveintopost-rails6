@@ -62,7 +62,7 @@ class TeamsController < ApplicationController
   end
 
   def user_destroy(user, current_user)
-    unless @team.user == current_user || owner
+    unless @team.user == current_user ||= owner
       I18n.t('views.messages.only_the_leader_or_current_user')
       redirect_to teams_url
     end
