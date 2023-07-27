@@ -15,7 +15,8 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     @team = Team.new(team_params)
@@ -39,8 +40,8 @@ class TeamsController < ApplicationController
   end
 
   def destroy
-    @team.destroy
-    redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
+     @team.destroy
+     redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
   end
 
   def dashboard
@@ -55,5 +56,12 @@ class TeamsController < ApplicationController
 
   def team_params
     params.fetch(:team, {}).permit %i[name icon icon_cache owner_id keep_team_id]
+  end
+
+  def user_destroy(user, current_user)
+    unless @team.user == current_user ||= owner
+      I18n.t('views.messages.only_the_leader_or_current_user')
+      redirect_to teams_url
+    end
   end
 end
